@@ -12,7 +12,7 @@ export default function App() {
   return (
     <div>
       <Nav />
-    <News pageSize={5} />
+    <News pageSize={5} category="science" />
     </div>
   )
 }
