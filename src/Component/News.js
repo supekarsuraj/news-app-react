@@ -7,6 +7,8 @@ import Spinner from "./Spinner";
 
 export default function News(props) {
    var  pageize = props.pageSize;
+
+    var category = props.category;
   const [state, setState] = React.useState({
     article: [],
     loading: true,
@@ -14,9 +16,10 @@ export default function News(props) {
     totalResult: 0,
     
   });
+ 
 
   const fetchArticles = async (page) => {
-    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=68c2e70ddc9148abad0dab91c69c7a5b&page=${page}&pageSize=${pageize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=68c2e70ddc9148abad0dab91c69c7a5b&page=${page}&pageSize=${pageize}`;
 
     const response = await fetch(url);
     const data = await response.json();

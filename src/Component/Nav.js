@@ -5,8 +5,7 @@ import React, { Component } from "react";
 export default function Nav() {
   return (
     <>
-    <div>
-       
+      <div>
         <nav className="navbar navbar-expand-sm bg-light">
           <div className="container-fluid">
             <a className="navbar-brand" href="/">
@@ -62,10 +61,44 @@ export default function Nav() {
                       Pricing
                     </a>
                   </li>
-
+              
                   <li className="nav-item">
-                    <span className="nav-link disabled">Disabled</span>
+                    <a className="nav-link" href="/">
+                      business
+                    </a>
                   </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                      entertainment
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                       general
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                      health
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                        science
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                       sports
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">
+                      technology
+                    </a>
+                  </li>
+
+              
                 </ul>
               </div>
             </div>
@@ -82,13 +115,10 @@ export default function Nav() {
             </form>
           </div>
         </nav>
-   
- 
-    </div>
+      </div>
     </>
-  )
+  );
 }
-
 
 // export class Nav extends Component {
 //   render() {
