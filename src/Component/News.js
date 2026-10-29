@@ -4,6 +4,14 @@ import NewsItem from "./NewsItem";
 import PropTypes from "prop-types";
 import Spinner from "./Spinner";
 
+import {
+  BrowserRouter as Router,
+
+  Route,
+  Link
+} from "react-router-dom";
+
+
 
 export default function News(props) {
    var  pageize = props.pageSize;
@@ -30,6 +38,7 @@ export default function News(props) {
       loading: false,
       page,
       totalResult: data.totalResults || 0,
+      
       
     }));
   };
@@ -62,8 +71,10 @@ export default function News(props) {
 
       <div className="row">
         {state.article.map((element) => (
+          
           <div className="col-md-4" key={element.url}>
             <NewsItem
+            
               title={element.title ? element.title.slice(0, 45) : ""}
               description={
                 element.description
@@ -72,6 +83,9 @@ export default function News(props) {
               }
               imageUrl={element.urlToImage}
               newsUrl={element.url}
+              publishedAt={element.publishedAt}
+              author={element.author}
+              name={element.source.name}
             />
           </div>
         ))}
