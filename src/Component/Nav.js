@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
- 
-  Route,
-  Link
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // import React from 'react'
 
@@ -15,8 +9,6 @@ export default function Nav() {
       <div>
         <nav className="navbar navbar-expand-sm bg-light">
           <div className="container-fluid">
-            
-
             <button
               className="navbar-toggler"
               type="button"
@@ -34,8 +26,6 @@ export default function Nav() {
               id="navbarNavAltMarkup"
               aria-labelledby="navbarNavAltMarkupLabel"
             >
-              
-
               <div className="offcanvas-body">
                 <ul className="navbar-nav">
                   <li className="nav-item">
@@ -44,10 +34,6 @@ export default function Nav() {
                     </Link>
                   </li>
 
-                 
-
-              
-              
                   <li className="nav-item">
                     <Link className="nav-link" to="/business">
                       business
@@ -60,7 +46,7 @@ export default function Nav() {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/general">
-                       general
+                      general
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -70,12 +56,12 @@ export default function Nav() {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/science">
-                        science
+                      science
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/sports">
-                       sports
+                      sports
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -83,8 +69,6 @@ export default function Nav() {
                       technology
                     </Link>
                   </li>
-
-              
                 </ul>
               </div>
             </div>
@@ -155,7 +139,7 @@ export default function Nav() {
 //                   </li>
 
 //                   <li className="nav-item">
-                    // <Link className="nav-link" to="/">
+// <Link className="nav-link" to="/">
 //                       Features
 //                     </Link>
 //                   </li>
