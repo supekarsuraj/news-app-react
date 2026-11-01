@@ -11,7 +11,8 @@ import LoadingBar from "react-top-loading-bar";
 export default function App() {
     const [progress, setProgress] = useState(0);
 
-    const apiKey= process.env.NEWS_API_KEY
+const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+
 
      useEffect(() => {
   const handleScroll = () => {
@@ -61,46 +62,46 @@ export default function App() {
             exact
             path="/entertainment"
             element={
-              <News key="entertainment" pageSize={5} apikey={apiKey} category="entertainment" />
+              <News key="entertainment" pageSize={5} apiKey={apiKey} category="entertainment" />
             }
           />
 
           <Route
             exact
             path="/general"
-            element={<News key="general" pageSize={5} apikey={apiKey} category="general" />}
+            element={<News key="general" pageSize={5} apiKey={apiKey} category="general" />}
           />
 
           <Route
             exact
             path="/health"
-            element={<News key="health" pageSize={5} apikey={apiKey} category="health" />}
+            element={<News key="health" pageSize={5} apiKey={apiKey} category="health" />}
           />
 
           <Route
             exact
             path="/sports"
-            element={<News key="sports" pageSize={5} apikey={apiKey} category="sports" />}
+            element={<News key="sports" pageSize={5} apiKey={apiKey} category="sports" />}
           />
 
           <Route
             exact
             path="/technology"
             element={
-              <News key="technology" pageSize={5} apikey={apiKey} category="technology" />
+              <News key="technology" pageSize={5} apiKey={apiKey} category="technology" />
             }
           />
 
           <Route
             exact
             path="/business"
-            element={<News key="business" pageSize={5} apikey={apiKey} category="business" />}
+            element={<News key="business" pageSize={5} apiKey={apiKey} category="business" />}
           />
 
           <Route
             exact
             path="/science"
-            element={<News key="science" pageSize={5} apikey={apiKey} category="science" />}
+            element={<News key="science" pageSize={5} apiKey={apiKey} category="science" />}
           />
         </Routes>
       </div>
