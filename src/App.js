@@ -1,102 +1,112 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import React, { Component } from "react";
+import React, { Component , useState , useEffect } from "react";
 import Nav from "./Component/Nav";
 import News from "./Component/News";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
 
-
-// import React from 'react'
-
-// export default function App() {
-//   return (
-//     <div>
-//       <Nav />
-//       <Route exactr>
-//         <Switch>
-//         <Route exact path="/entertainment">
-//           <News pageSize={5} category="entertainment" />{" "}
-//         </Route>
-//         <Route exact path="/general">
-//           <News pageSize={5} category="general" />{" "}
-//         </Route>
-//          <Route exact path="/health">
-//           <News pageSize={5} category="health" />{" "}
-//         </Route>
-//           <Route exact path="/sports">
-//           <News pageSize={5} category="sports" />{" "}
-//         </Route>
-//          <Route exact path="/technology">
-//           <News pageSize={5} category="technology" />{" "}
-//         </Route>
-//         <Route exact path="/business">
-//           <News pageSize={5} category="business" />{" "}
-//         </Route>
-//         <Route exact path="/science">
-//           <News pageSize={5} category="science" />{" "}
-//         </Route>
-//         </Switch>
-//       </Router>
-//     </div>
-//   );
-// }
 
 export default function App() {
+    const [progress, setProgress] = useState(0);
+
+const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+
+
+     useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+
+    const documentHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+
+    const scrollProgress = (scrollTop / documentHeight) * 100;
+
+    setProgress(scrollProgress);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   return (
-    <Router>
+    <>
+    <div>
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(50)}
+      />
+      {/* <button onClick={() => setProgress(progress + 10)}>Add 10%</button>
+      <button onClick={() => setProgress(progress + 20)}>Add 20%</button>
+      <button onClick={() => setProgress(100)}>Complete</button> */}
+    </div>
+       <Router>
+        
       <div>
         <Nav />
 
         <Routes>
-             <Route exact
+          <Route onLoaderFinished={()=>setProgress(50)}
+            exact
             path="/"
-            element={<News key="entertainment" pageSize={5} category="entertainment" />}
+            element={
+              <News key="entertainment" pageSize={5} apiKey={apiKey} category="entertainment" />
+            }
           />
-           <Route exact  
+          <Route
+            exact
             path="/entertainment"
-            element={<News key="entertainment" pageSize={5} category="entertainment" />}
+            element={
+              <News key="entertainment" pageSize={5} apiKey={apiKey} category="entertainment" />
+            }
           />
 
-      
-
-          <Route exact  
+          <Route
+            exact
             path="/general"
-            element={<News key="general" pageSize={5} category="general" />}
+            element={<News key="general" pageSize={5} apiKey={apiKey} category="general" />}
           />
 
-          <Route exact
+          <Route
+            exact
             path="/health"
-            element={<News key="health" pageSize={5} category="health" />}
+            element={<News key="health" pageSize={5} apiKey={apiKey} category="health" />}
           />
 
-          <Route exact
+          <Route
+            exact
             path="/sports"
-            element={<News key="sports"  pageSize={5} category="sports" />}
+            element={<News key="sports" pageSize={5} apiKey={apiKey} category="sports" />}
           />
 
-          <Route exact
+          <Route
+            exact
             path="/technology"
-            element={<News key="technology" pageSize={5} category="technology" />}
+            element={
+              <News key="technology" pageSize={5} apiKey={apiKey} category="technology" />
+            }
           />
 
-          <Route exact
+          <Route
+            exact
             path="/business"
-            element={<News key="business"  pageSize={5} category="business" />}
+            element={<News key="business" pageSize={5} apiKey={apiKey} category="business" />}
           />
 
-          <Route exact
+          <Route
+            exact
             path="/science"
-            element={<News key="science" pageSize={5} category="science" />}
+            element={<News key="science" pageSize={5} apiKey={apiKey} category="science" />}
           />
         </Routes>
       </div>
     </Router>
+    </>
+ 
   );
 }
-
-

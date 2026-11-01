@@ -1,124 +1,120 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
-import PropTypes from "prop-types";
 import Spinner from "./Spinner";
-
-import {
-  BrowserRouter as Router,
-
-  Route,
-  Link
-} from "react-router-dom";
-
-
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function News(props) {
-   var  pageize = props.pageSize;
+  const pageSize = props.pageSize;
+  const category = props.category;
+  const apiKey = props.apiKey
 
-    var category = props.category;
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     article: [],
     loading: true,
     page: 1,
     totalResult: 0,
-    
   });
- 
 
   const fetchArticles = async (page) => {
-    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=68c2e70ddc9148abad0dab91c69c7a5b&page=${page}&pageSize=${pageize}`;
+    setState((prev) => ({ ...prev, loading: true }));
 
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+      const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;
 
-    setState((currentState) => ({
-      ...currentState,
-      article: data.articles || [],
-      loading: false,
-      page,
-      totalResult: data.totalResults || 0,
-      
-      
-    }));
-  };
+      const response = await fetch(url);
+      const data = await response.json();
 
-  React.useEffect(() => {
-    fetchArticles(1);
-  }, []);
-
-  const handlePrevClick = () => {
-    if (state.page > 1) {
-      fetchArticles(state.page - 1);
+      if (data.status === "ok") {
+        setState((prev) => ({
+          ...prev,
+          article:
+            page === 1
+              ? data.articles || []
+              : [...prev.article, ...(data.articles || [])],
+          loading: false,
+          page: page,
+          totalResult: data.totalResults || 0,
+        }));
+      } else {
+        setState((prev) => ({ ...prev, loading: false }));
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log("Error fetching news:", error);
+      setState((prev) => ({ ...prev, loading: false }));
     }
   };
 
-  const handleNextClick = () => {
-    const totalPages = Math.ceil(state.totalResult / 5);
+  useEffect(() => {
+    setState({
+      article: [],
+      loading: true,
+      page: 1,
+      totalResult: 0,
+    });
 
-    if (state.page < totalPages) {
+    fetchArticles(1);
+  }, [category, pageSize]);
+
+  // Fetch next page
+  const fetchMoreData = () => {
+    if (!state.loading) {
       fetchArticles(state.page + 1);
     }
   };
 
-  const totalPages = Math.ceil(state.totalResult / 5);
-
   return (
     <>
-    <div className="container my-3">
-      <h2 className="text-center">NewsMonkey - Top Headlines</h2>
-    {state.loading && <Spinner/>}
+      <div className="container my-3">
 
-      <div className="row">
-        {state.article.map((element) => (
-          
-          <div className="col-md-4" key={element.url}>
-            <NewsItem
-            
-              title={element.title ? element.title.slice(0, 45) : ""}
-              description={
-                element.description
-                  ? element.description.slice(0, 100)
-                  : ""
-              }
-              imageUrl={element.urlToImage}
-              newsUrl={element.url}
-              publishedAt={element.publishedAt}
-              author={element.author}
-              name={element.source.name}
-            />
-          </div>
-        ))}
-      </div>
+        <h2 className="text-center">
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+          {" - Top Headlines"}
+        </h2>
 
-      <div className="d-flex justify-content-between my-3">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={handlePrevClick}
-          disabled={state.page === 1 || state.loading}
-        >
-          &larr; Previous
-        </button>
+        {state.loading && state.article.length === 0 && <Spinner />}
 
-        <span>
-          Page {state.page} of {totalPages}
-        </span>
-
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={handleNextClick}
-          disabled={
-            state.loading ||
-            state.page >= totalPages ||
-            state.article.length === 0
+        <InfiniteScroll
+          dataLength={state.article.length}
+          next={fetchMoreData}
+          hasMore={state.article.length < state.totalResult}
+          loader={
+            <div className="text-center my-4">
+              <Spinner />
+              <p>Loading more news...</p>
+            </div>
+          }
+          endMessage={
+            <p className="text-center my-4">
+              <b>You have seen all the news!</b>
+            </p>
           }
         >
-          Next &rarr;
-        </button>
+
+          <div className="row">
+            {state.article.map((element) => (
+              <div className="col-md-4" key={element.url}>
+                <NewsItem
+                  title={element.title ? element.title.slice(0, 45) : ""}
+                  description={
+                    element.description
+                      ? element.description.slice(0, 100)
+                      : ""
+                  }
+                  imageUrl={element.urlToImage}
+                  newsUrl={element.url}
+                  publishedAt={element.publishedAt}
+                  author={element.author}
+                  name={element.source?.name}
+                />
+              </div>
+            ))}
+          </div>
+
+        </InfiniteScroll>
+
       </div>
-    </div>
     </>
   );
 }
